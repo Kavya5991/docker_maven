@@ -14,7 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/maven_actions:v3
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
@@ -35,7 +39,7 @@ jobs:
           context: .
           file: ./Nexus
           push: true
-          tags: docker.io/kavyakolla/${{env.Nexus_image}}
+          tags: ${{ steps.meta.outputs.tags }}
       - name: Run nexus Container
         run: |
          docker run -d -p 8087:8081 --name nexus ${{ secrets.DOCKER_USERNAME }}/${{env.Nexus_image}}
