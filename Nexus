@@ -1,0 +1,24 @@
+FROM ubuntu:22.04
+
+# Update and install dependencies
+RUN apt-get update
+RUN apt-get install -y
+RUN apt-get install wget -y
+RUN apt-get install openjdk-8-jdk -y
+RUN groupadd -r nexus && useradd -r -g nexus nexus
+
+ENV NEXUS_HOME=/opt/nexus/nexus-3.56.0-01
+ENV PATH=$PATH:$NEXUS_HOME/bin
+RUN mkdir /opt/nexus/
+
+# Download and extract Nexus
+RUN wget https://download.sonatype.com/nexus/3/nexus-3.56.0-01-unix.tar.gz
+RUN tar -xvf nexus-3.56.0-01-unix.tar.gz -C /opt/nexus/
+RUN chown -R nexus:nexus /opt/nexus/*
+RUN chmod +x /opt/nexus/*
+
+# Expose the default Nexus port
+EXPOSE 8081
+USER nexus
+# Start Nexus
+CMD ["/opt/nexus/nexus-3.56.0-01/bin/nexus", "run"]
