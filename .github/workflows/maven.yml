@@ -38,7 +38,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/kavyakolla/${{ steps.set_output.MAVEN_IMAGE_TAG }}
+          tags: docker.io/kavyakolla/${{ steps.set_output.outputs.MAVEN_IMAGE_TAG }}
           
       - name: Push Docker image
         uses: docker/build-push-action@v2
