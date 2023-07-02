@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  IMAGE_TAG: MAVEN_ACTIONS:v2
+  IMAGE_TAG: maven_actions:v2
 jobs:
   build:
     runs-on: ubuntu-latest
