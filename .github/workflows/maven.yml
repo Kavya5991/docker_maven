@@ -17,7 +17,7 @@ jobs:
       - name: Create Environment File
         run: |
           echo "MAVEN_IMAGE_TAG=maven_actions:updated" >> $GITHUB_ENV
-          echo "NEXUS_IMAGE_TAG=nexus_actions:updated" >> $GITHUB_OUTPUT
+          echo "NEXUS_IMAGE_TAG=nexus_actions:updated" >> $GITHUB_ENV
           echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_OUTPUT
 
 
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./Nexus
           push: true
-          tags: docker.io/${{secrets.DOCKER_USERNAME }}/${{NEXUS_IMAGE_TAG}}
+          tags: docker.io/${{secrets.DOCKER_USERNAME }}/$NEXUS_IMAGE_TAG
       - name: Run nexus Container
         run: |
          docker run -d -p 8087:8081 --name nexus ${{ secrets.DOCKER_USERNAME }}/${{env.Nexus_image}}
@@ -65,6 +65,6 @@ jobs:
           context: .
           file: ./Sonarqube
           push: true
-          tags: docker.io/kavyakolla/${{SONAR_IMAGE_TAG}}
+          tags: docker.io/kavyakolla/$SONAR_IMAGE_TAG
         
     
