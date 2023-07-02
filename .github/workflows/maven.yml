@@ -29,4 +29,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/kavyakolla/${{IMAGE_TAG}}
+          tags: docker.io/kavyakolla/${{env.IMAGE_TAG}}
