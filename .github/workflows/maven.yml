@@ -30,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/ ${{ secrets.DOCKER_USERNAME }}/nexus:maven-actions:latest
+          tags: docker.io/kavyakolla/nexus:maven-actions:latest
