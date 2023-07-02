@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "MAVEN_IMAGE_TAG=maven_actions:updated" >> $GITHUB_ENV
           echo "NEXUS_IMAGE_TAG=nexus_actions:updated" >> $GITHUB_ENV
-          echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_OUTPUT
+          echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_ENV
 
 
       - name: Log in to Docker Hub
@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/kavyakolla/$MAVEN_IMAGE_TAG
+          tags: docker.io/kavyakolla/${{ env.MAVEN_IMAGE_TAG }}
           
       - name: Push Docker image
         uses: docker/build-push-action@v2
@@ -40,18 +40,15 @@ jobs:
           context: .
           file: ./Nexus
           push: true
-          tags: docker.io/${{secrets.DOCKER_USERNAME }}/$NEXUS_IMAGE_TAG
-      - name: Run nexus Container
-        run: |
-         docker run -d -p 8087:8081 --name nexus ${{ secrets.DOCKER_USERNAME }}/${{env.Nexus_image}}
+          tags: docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.NEXUS_IMAGE_TAG }}
+          
+
   sonar:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
@@ -65,6 +62,4 @@ jobs:
           context: .
           file: ./Sonarqube
           push: true
-          tags: docker.io/kavyakolla/$SONAR_IMAGE_TAG
-        
-    
+          tags: docker.io/kavyakolla/${{ env.SONAR_IMAGE_TAG }}
