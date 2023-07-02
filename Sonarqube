@@ -1,0 +1,23 @@
+FROM ubuntu:22.04
+
+# Install required packages
+RUN apt-get update && apt-get install -y wget unzip openjdk-11-jdk
+
+RUN groupadd -r sonarqube && useradd -r -g sonarqube sonarqube
+
+ENV SONAR_HOME=/opt/sonarqube
+ENV PATH=$PATH:$SONAR_HOME/bin
+
+# Download and extract SonarQube
+RUN wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.4.0.54424.zip
+RUN unzip sonarqube-9.4.0.54424.zip -d /opt
+RUN mv /opt/sonarqube-9.4.0.54424 /opt/sonarqube
+RUN chown -R sonarqube:sonarqube $SONAR_HOME
+RUN rm sonarqube-9.4.0.54424.zip
+
+WORKDIR $SONAR_HOME
+
+# Expose the SonarQube port
+EXPOSE 9000
+
+COPY start-sonar.sh /opt/sonarqube
