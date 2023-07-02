@@ -4,8 +4,9 @@ on:
     branches:
       - main
 env:
-  IMAGE_TAG: maven_actions:v2
-  Nexus_image: nexus_actions:v1
+  MAVEN_IMAGE_TAG: maven_actions:updated
+  NEXUS_IMAGE_TAG: nexus_actions:updated
+  SONAR_IMAGE_TAG: sonar_actions:updated
 jobs:
   mavennexus:
     runs-on: ubuntu-latest
@@ -14,16 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create Environment File
-        run: |
-          echo "MAVEN_IMAGE_TAG=maven_actions:updated" >> $GITHUB_ENV
-          echo "NEXUS_IMAGE_TAG=nexus_actions:updated" >> $GITHUB_ENV
-          echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_ENV
-          
-      - name: Set output
-        id: set_output
-        run: echo "::set-output name=MAVEN_IMAGE_TAG::maven_actions:updated"
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -31,7 +22,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           push: true
@@ -62,7 +53,7 @@ jobs:
         run: echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_ENV
 
       - name: Push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./Sonarqube
