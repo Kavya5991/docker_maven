@@ -16,7 +16,7 @@ jobs:
 
       - name: Create Environment File
         run: |
-          echo "MAVEN_IMAGE_TAG=maven_actions:updated" >> $GITHUB_OUTPUT
+          echo "MAVEN_IMAGE_TAG=maven_actions:updated" >> $GITHUB_ENV
           echo "NEXUS_IMAGE_TAG=nexus_actions:updated" >> $GITHUB_OUTPUT
           echo "SONAR_IMAGE_TAG=sonar_actions:updated" >> $GITHUB_OUTPUT
 
@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.io/kavyakolla/${{MAVEN_IMAGE_TAG}}
+          tags: docker.io/kavyakolla/$MAVEN_IMAGE_TAG
           
       - name: Push Docker image
         uses: docker/build-push-action@v2
