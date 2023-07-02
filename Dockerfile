@@ -14,7 +14,7 @@ RUN tar xf apache-maven-3.9.3-bin.tar.gz -C /opt
 # Clean up Maven archive
 RUN rm apache-maven-3.9.3-bin.tar.gz
 
-# Set environment variables
+# Set environment variable
 ENV MAVEN_HOME=/opt/apache-maven-3.9.3
 ENV PATH=$MAVEN_HOME/bin:$PATH
 
